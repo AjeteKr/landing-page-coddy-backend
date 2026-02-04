@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "migrate": "psql \"$DATABASE_URL\" -f scripts/create_tables.sql"
   },
   "keywords": [
     "express",

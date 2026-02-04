@@ -75,6 +75,16 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Root/info endpoint - helpful for browser or pinging the function root
+app.get('/', (req, res) => {
+  res.json({
+    status: 'OK',
+    message: 'Coddy NonLogin Backend',
+    info: 'Use /api/health for a quick health check or /api/public/* for public endpoints',
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
 // Routes
 app.use('/api/public/courses', publicCoursesRoutes);
 app.use('/api/auth', publicAuthRoutes);

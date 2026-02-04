@@ -12,6 +12,8 @@ const router = express.Router();
  * User login endpoint (supports both main app and non-login users)
  */
 router.post('/login', validateRequest(['email', 'password']), asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
   if (!supabaseService) {
     return res.status(503).json({
       status: 'error',
@@ -115,6 +117,8 @@ router.post('/login', validateRequest(['email', 'password']), asyncHandler(async
  * User registration endpoint (for public/non-login users)
  */
 router.post('/register', validateRequest(['email', 'password', 'name']), asyncHandler(async (req, res) => {
+  const { email: rawEmail, password, name: rawName } = req.body;
+
   if (!supabaseService) {
     return res.status(503).json({
       status: 'error',
@@ -124,8 +128,8 @@ router.post('/register', validateRequest(['email', 'password', 'name']), asyncHa
   }
 
   // Sanitize inputs
-  email = sanitizeInput(email).toLowerCase();
-  name = sanitizeInput(name);
+  const email = sanitizeInput(rawEmail).toLowerCase();
+  const name = sanitizeInput(rawName);
 
   // Validate inputs
   if (!isValidEmail(email)) {
